@@ -8,11 +8,8 @@ from datetime import date
 
 
 def get_weather_data(request):
-
     # Get the current date
     current_date = date.today()
-
-
     format5 = current_date.strftime("%A, %B %d, %Y")
     date_lst = format5.split()
 
@@ -23,39 +20,45 @@ def get_weather_data(request):
 
     if request.method == 'POST':
         city = request.POST.get('city')
-        dict_weather = {}
+        dict_weather_td = {}
+        # dict_weather_tm = {}
 
         try:
             # to get data Api
-            source = urllib.request.urlopen(
+            source_today = urllib.request.urlopen(
                 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&appid=1cd63f42c20da919b414b64b6467b639').read()
-            print(source)
 
-            # cd4415a99345841edbb9040348e3f2d6
+            # source_tommorow = urllib.request.urlopen(
+            #     'http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=metric&appid=1cd63f42c20da919b414b64b6467b639').read()
 
-            convert = json.loads(source)
+            convert_td = json.loads(source_today)
+            # convert_tm = json.loads(source_tommorow)
 
-            dict_weather = {
-                'country_code': str(convert['sys']['country']),
-                'coord': str(convert["coord"]["lon"]) + " " + str(convert["coord"]["lat"]),
-
-                'temp': int(convert["main"]['temp']),
-
-                'pressure': str(convert['main']["pressure"]),
-                'speed': str(convert["wind"]['speed']),
-                'humidity': str(convert['main']['humidity']),
-                'main': str(convert["weather"][0]['main']),
-                'description': str(convert["weather"][0]['description']),
-                'icon': convert["weather"][0]['icon'],
+            dict_weather_td = {
+                'country_code': str(convert_td['sys']['country']),
+                'coord': str(convert_td["coord"]["lon"]) + " " + str(convert_td["coord"]["lat"]),
+                'temp': int(convert_td["main"]['temp']),
+                'pressure': str(convert_td['main']["pressure"]),
+                'speed': str(convert_td["wind"]['speed']),
+                'humidity': str(convert_td['main']['humidity']),
+                'main': str(convert_td["weather"][0]['main']),
+                'description': str(convert_td["weather"][0]['description']),
+                'icon': convert_td["weather"][0]['icon'],
                 'city': city}
 
+            # next_day_weather = convert_tm['list'][0]
+            # dict_weather_tm = {
+            #     'temp': int(next_day_weather["main"]['temp']),
+
+            # }
+
             context = {"city": city,
-                       "dict_weather": dict_weather,
+                       "dict_weather_td": dict_weather_td,
+                       # "dict_weather_tm": dict_weather_tm,
                        'weakday': weekday,
                        'month': month,
                        'day': day,
                        'year': year,
-                       # 'temp_int': int(dict_weather.temp),
 
                        }
             return render(request, 'base.html', context)
