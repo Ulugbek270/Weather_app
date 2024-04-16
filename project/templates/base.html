@@ -11,76 +11,89 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container">
-        <div class="wrapper">
-          <div class="img_section">
+
+
+<div class="container">
+    <div class="wrapper">
+        <div class="img_section">
             <div class="default_info">
-              <h2 class="default_day">Sunday</h2>
-              <span class="default_date">18 September 2023 </span>
-              <div class="icons">
-                <img src="https://openweathermap.org/img/wn/10d@4x.png" alt="" />
-                <h2 class="weather_temp">22°C</h2>
-                <h3 class="cloudtxt">Overcast Clouds</h3>
-              </div>
+                <h2 class="default_day">{{weakday}}</h2>
+                <span class="default_date">{{day}} {{month}} {{year}} </span>
+
+<!--                <div class="icons">-->
+                    <img src="https://openweathermap.org/img/wn/10d@4x.png" alt=""/>
+                    <h2 class="weather_temp">{{dict_weather.temp}} °C</h2>
+                    <h3 class="cloudtxt">{{dict_weather.description}}</h3>
+<!--                </div>-->
             </div>
-          </div>
-          <div class="content_section">
+        </div>
+        <div class="content_section">
 
-            <form method="post">
+            <form method="post" action="{% url 'get_weather_data' %}">
                 {% csrf_token %}
-              <input
-                type="text"
-                placeholder="Search Location"
-                class="input_field"/>
 
-              <button type="submit" class="btn_search">Search</button>
+                {% if city %}
+                <input
+                        type="text"
+                        placeholder="{{city}}"
+                        class="input_field"
+                        name="city"/>
+                {% else %}
+                <input
+                        type="text"
+                        placeholder="Search Location"
+                        class="input_field"
+                        name="city"/>
+                {% endif %}
+                <button type="submit" class="btn_search">Search</button>
             </form>
 
             <div class="day_info">
-              <div class="content">
-                <p class="title">NAME</p>
-                <span class="value">{{city}}</span>
-              </div>
-              <div class="content">
-                <p class="title">TEMP</p>
-                <span class="value">23°C</span>
-              </div>
-              <div class="content">
-                <p class="title">HUMIDITY</p>
-                <span class="value">2%</span>
-              </div>
-              <div class="content">
-                <p class="title">WIND SPEED</p>
-                <span class="value">2.92 Km/h</span>
-              </div>
+                <div class="content">
+                    <p class="title">NAME</p>
+                    <span class="value">{{city}}</span>
+                </div>
+                <div class="content">
+                    <p class="title">TEMP</p>
+                    <span class="value">{{dict_weather.temp}} °C</span>
+                </div>
+                <div class="content">
+                    <p class="title">HUMIDITY</p>
+                    <span class="value">{{dict_weather.humidity}}%</span>
+                </div>
+                <div class="content">
+                    <p class="title">WIND SPEED</p>
+                    <span class="value">{{dict_weather.speed}} Km/h</span>
+                </div>
             </div>
 
             <div class="list_content">
-              <ul>
-                <li>
-                  <img src="https://openweathermap.org/img/wn/10d@2x.png" />
-                  <span>Sat</span>
-                  <span class="day_temp">23°C</span>
-                </li>
-                <li>
-                  <img src="https://openweathermap.org/img/wn/10d@2x.png" />
-                  <span>Sat</span>
-                  <span class="day_temp">23°C</span>
-                </li>
-                <li>
-                  <img src="https://openweathermap.org/img/wn/10d@2x.png" />
-                  <span>Sat</span>
-                  <span class="day_temp">23°C</span>
-                </li>
-                <li>
-                  <img src="https://openweathermap.org/img/wn/10d@2x.png" />
-                  <span>Sat</span>
-                  <span class="day_temp">23°C</span>
-                </li>
-              </ul>
+                <ul>
+                    <li>
+                        <img src="https://openweathermap.org/img/wn/10d@2x.png"/>
+                        <span>Sat</span>
+                        <span class="day_temp">23°C</span>
+                    </li>
+                    <li>
+                        <img src="https://openweathermap.org/img/wn/10d@2x.png"/>
+                        <span>Sat</span>
+                        <span class="day_temp">23°C</span>
+                    </li>
+                    <li>
+                        <img src="https://openweathermap.org/img/wn/10d@2x.png"/>
+                        <span>Sat</span>
+                        <span class="day_temp">23°C</span>
+                    </li>
+                    <li>
+                        <img src="https://openweathermap.org/img/wn/10d@2x.png"/>
+                        <span>Sat</span>
+                        <span class="day_temp">23°C</span>
+                    </li>
+                </ul>
             </div>
-          </div>
-        </div></div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
